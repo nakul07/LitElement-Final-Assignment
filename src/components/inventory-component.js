@@ -42,7 +42,9 @@ export class InventoryComponent extends LitElement {
       }
       .date-picker {
         border: none;
+        border-bottom: 1px solid #001;
         width: 42%;
+        margin-top: 10px;
       }
       .buttons {
         margin-top: 40px;
@@ -57,6 +59,16 @@ export class InventoryComponent extends LitElement {
       }
       .left {
         width: 42%;
+      }
+      .saveBtn {
+        background-color: crimson;
+        color: white;
+      }
+      .generateSdf {
+          position: absolute;
+          background-color: green;
+          color: white;
+            right: 90px;
       }
     `;
   }
@@ -126,14 +138,15 @@ export class InventoryComponent extends LitElement {
         ></paper-input>
 
         <paper-input
-          label="Amount(nMol)*"
-          placeholder=""
+         
+          placeholder="Amount(nMol)"
           class="right"
         ></paper-input>
       </div>
       <div class="buttons">
-        <paper-button raised>Save</paper-button>
+        <paper-button class="saveBtn" raised>Save</paper-button>
         <paper-button>Cancel</paper-button>
+        <paper-button class="generateSdf">Generate SDF</paper-button>
       </div>
     `;
   }
