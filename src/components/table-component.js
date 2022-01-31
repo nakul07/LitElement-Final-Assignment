@@ -24,31 +24,57 @@ export class TableComponent extends LitElement {
 
     this.items = [
       {
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        compoundName: 'abcdef',
-        plateNames: 'abcdef',
-        well: 'abcdef',
         program: 'abcdef',
         contract: 'abcdef',
+        varient: 'abcdef',
+        concept: 'abcdef',
+        target1: 'abcdef',
+        target2: 'abcdef',
+        series: 'abcdef',
+        metadataCode: 'abcdef',
+        delLineage: 'abcdef',
+        structure: 'abcdef',
+        status: 'abcdef',
+        Available: true,
       },
       {
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        compoundName: 'abcdef',
-        plateNames: 'abcdef',
-        well: 'abcdef',
         program: 'abcdef',
         contract: 'abcdef',
+        varient: 'abcdef',
+        concept: 'abcdef',
+        target1: 'abcdef',
+        target2: 'abcdef',
+        series: 'abcdef',
+        metadataCode: 'abcdef',
+        delLineage: 'abcdef',
+        structure: 'abcdef',
+        status: 'abcdef',
       },
       {
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        compoundName: 'abcdef',
-        plateNames: 'abcdef',
-        well: 'abcdef',
         program: 'abcdef',
         contract: 'abcdef',
+        varient: 'abcdef',
+        concept: 'abcdef',
+        target1: 'abcdef',
+        target2: 'abcdef',
+        series: 'abcdef',
+        metadataCode: 'abcdef',
+        delLineage: 'abcdef',
+        structure: 'abcdef',
+        status: 'abcdef',
+      },
+      {
+        program: 'abcdef',
+        contract: 'abcdef',
+        varient: 'abcdef',
+        concept: 'abcdef',
+        target1: 'abcdef',
+        target2: 'abcdef',
+        series: 'abcdef',
+        metadataCode: 'abcdef',
+        delLineage: 'abcdef',
+        structure: 'abcdef',
+        status: 'abcdef',
       },
     ];
   }
@@ -79,41 +105,62 @@ export class TableComponent extends LitElement {
           <vaadin-grid .items="${this.items}">
             <vaadin-grid-selection-column></vaadin-grid-selection-column>
             <vaadin-grid-sort-column
-              header="DEL Lineage"
-              path="delLineage"
+              header="Program"
+              path="program"
               flex-grow="0"
               auto-width
             ></vaadin-grid-sort-column>
             <vaadin-grid-column
-              path="structure"
-              header="Structure"
-              auto-width
-            ></vaadin-grid-column>
-            <vaadin-grid-sort-column
-              header="Compound Name"
-              path="compoundName"
-              auto-width
-            ></vaadin-grid-sort-column>
-            <vaadin-grid-column
-              path="plateNames"
-              auto-width
-              header="Plate Name"
-            ></vaadin-grid-column>
-            <vaadin-grid-column
-              path="well"
-              auto-width
-              header="Well"
-            ></vaadin-grid-column>
-            <vaadin-grid-sort-column
-              path="program"
-              auto-width
-              header="Program"
-            ></vaadin-grid-sort-column>
-            <vaadin-grid-sort-column
               path="contract"
-              auto-width
               header="Contract"
+              auto-width
+            ></vaadin-grid-column>
+            <vaadin-grid-sort-column
+              header="Varient"
+              path="varient"
+              auto-width
             ></vaadin-grid-sort-column>
+            <vaadin-grid-column
+              path="concept"
+              auto-width
+              header="Concept"
+            ></vaadin-grid-column>
+            <vaadin-grid-column
+              path="target1"
+              auto-width
+              header="Target 1"
+            ></vaadin-grid-column>
+            <vaadin-grid-sort-column
+              path="target2"
+              auto-width
+              header="Target 2"
+            ></vaadin-grid-sort-column>
+            <vaadin-grid-sort-column
+              path="series"
+              auto-width
+              header="Series"
+            ></vaadin-grid-sort-column>
+            <vaadin-grid-column
+              path="metadataCode"
+              auto-width
+              header="Metadata Code"
+            ></vaadin-grid-column>
+            <vaadin-grid-column
+              path="delLineage"
+              auto-width
+              header="Del Lineage"
+            ></vaadin-grid-column>
+            <vaadin-grid-column
+              path="structure"
+              auto-width
+              header="Structure"
+            ></vaadin-grid-column>
+            <vaadin-grid-column
+              path="status"
+              auto-width
+              .renderer="${this.statusRenderer}"
+              header="Status"
+            ></vaadin-grid-column>
           </vaadin-grid>
         </div>
       </main>
