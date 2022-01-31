@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+import { styleMap } from 'lit-html/directives/style-map.js';
 import { render, nothing } from 'lit-html';
 
 /**
@@ -41,7 +42,7 @@ export class TableComponent extends LitElement {
       updateData: { type: Function },
     };
   }
-  
+
   /**
    * Constructor function.
    */
@@ -88,6 +89,63 @@ export class TableComponent extends LitElement {
   }
 
   /**
+   * Renders the menu column.
+   *
+   * @param {Object} root
+   * @param {Object} column
+   * @param {Object} item
+   *
+   * @returns {TemplateResult}
+   */
+  menuRenderer(root, column, item) {
+    const innerHTML = html`
+      <div>
+        <img src="../images/p.png" height="10px" />
+      </div>
+    `;
+
+    render(innerHTML, root);
+  }
+
+  /**
+   * Renders the status.
+   *
+   * @param {Object} root
+   * @param {Object} column
+   * @param {Object} item
+   *
+   * @returns {TemplateResult}
+   */
+  statusRenderer(root, column, item) {
+    let innerHTML;
+    const itemList = item.item;
+    const styles = {
+      color:
+        itemList.status === 0
+          ? 'brown'
+          : itemList.status === 1
+          ? 'red'
+          : 'green',
+    };
+
+    if (itemList.status === 0) {
+      innerHTML = html`
+        <span style="${styleMap(styles)}">&#8226; In Progress</span>
+      `;
+    } else if (itemList.status === 1) {
+      innerHTML = html`
+        <span style="${styleMap(styles)}">&#8226; Queued</span>
+      `;
+    } else {
+      innerHTML = html`
+        <span style="${styleMap(styles)}">&#8226; Completed</span>
+      `;
+    }
+
+    render(innerHTML, root);
+  }
+
+  /**
    * Active item changed.
    *
    * @param {Object} item
@@ -113,6 +171,11 @@ export class TableComponent extends LitElement {
               this.activeItemChanged(e.detail.value)}"
           >
             <vaadin-grid-selection-column></vaadin-grid-selection-column>
+            <vaadin-grid-column
+              flex-grow="0"
+              auto-width
+              .renderer="${this.menuRenderer}"
+            ></vaadin-grid-column>
             <vaadin-grid-sort-column
               header="Project"
               path="project"
@@ -166,7 +229,6 @@ export class TableComponent extends LitElement {
               .renderer="${this.structureRenderer}"
             ></vaadin-grid-column>
             <vaadin-grid-column
-              path="status"
               auto-width
               .renderer="${this.statusRenderer}"
               header="Status"

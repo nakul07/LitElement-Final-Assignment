@@ -180,7 +180,7 @@ export class InventoryComponent extends LitElement {
         ></paper-input>
       </div>
       <div class="buttons">
-        <paper-button class="saveBtn" @click="${this.test}" raised
+        <paper-button class="saveBtn" @click="${this.callSaveFunction}" raised
           >Save</paper-button
         >
         <paper-button @click="${this.callClearField}">Cancel</paper-button>
@@ -189,8 +189,9 @@ export class InventoryComponent extends LitElement {
     `;
   }
 
-  test() {
+  callSaveFunction() {
     console.log('test');
+    this.saveFunction();
   }
   callClearField() {
     this.clearField();
