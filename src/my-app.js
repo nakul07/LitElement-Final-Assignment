@@ -162,6 +162,16 @@ export class MyApp extends LitElement {
   }
 
   /**
+   * Delete the item.
+   * @param {String} id
+   *
+   */
+  deleteItem(id) {
+    //console.log(id)
+    this.items = this.items.filter((item) => item.id !== id);
+  }
+
+  /**
    *
    * @returns {TemplateResult}
    */
@@ -172,6 +182,7 @@ export class MyApp extends LitElement {
           .items="${this.items}"
           .formItems="${this.formItems}"
           .updateData="${(id) => this.updateData(id)}"
+          .deleteFunction="${(id) => this.deleteItem(id)}"
         ></table-component>
       </div>
 

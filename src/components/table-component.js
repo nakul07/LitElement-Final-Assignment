@@ -1,7 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+//import '@vaadin/vaadin-grid/vaadin-grid-filter-column';
 import { styleMap } from 'lit-html/directives/style-map.js';
+import '@polymer/paper-dialog/paper-dialog.js';
 import { render, nothing } from 'lit-html';
 
 /**
@@ -40,6 +42,16 @@ export class TableComponent extends LitElement {
        * @type {Function}
        */
       updateData: { type: Function },
+
+      /**
+       * Delete function.
+       * Passed from parent.
+       *
+       * @type {Function}
+       */
+      deleteFunction: { type: Function },
+
+      itemList: { type: Object },
     };
   }
 
@@ -52,6 +64,12 @@ export class TableComponent extends LitElement {
     this.items = [];
     this.formItems = {};
     this.updateData = () => {};
+    this.deleteFunction = () => {};
+    this.menuRenderer = this.menuRenderer.bind(this);
+    this.openDialog = this.openDialog.bind(this);
+    this.callDeleteFunction = this.callDeleteFunction.bind(this);
+
+    this.itemList = {};
   }
 
   /**
@@ -81,7 +99,7 @@ export class TableComponent extends LitElement {
   structureRenderer(root, column, item) {
     const innerHTML = html`
       <div>
-        <img src="../images/close.png" height="10px" />
+        <img src="../images/structure-1.png" height="30px" />
       </div>
     `;
 
@@ -98,13 +116,38 @@ export class TableComponent extends LitElement {
    * @returns {TemplateResult}
    */
   menuRenderer(root, column, item) {
+    // console.log(items);
+    let itemList = item.item;
     const innerHTML = html`
       <div>
-        <img src="../images/p.png" height="10px" />
+        <paper-button
+          @click="${() => {
+            // console.log(itemList.id);
+            this.itemList = itemList;
+            this.openDialog();
+          }}"
+          ><iron-icon src="../images/p.png"></iron-icon
+        ></paper-button>
       </div>
     `;
 
     render(innerHTML, root);
+  }
+
+  /**
+   * Calls the delete function.
+   *
+   */
+  callDeleteFunction() {
+    this.deleteFunction(this.itemList.id);
+  }
+
+  /**
+   * Opens the dialog
+   *
+   */
+  openDialog() {
+    this.shadowRoot.querySelector('#dialog').toggle();
   }
 
   /**
@@ -169,6 +212,7 @@ export class TableComponent extends LitElement {
             .items="${this.items}"
             @active-item-changed="${(e) =>
               this.activeItemChanged(e.detail.value)}"
+            theme="column-borders"
           >
             <vaadin-grid-selection-column></vaadin-grid-selection-column>
             <vaadin-grid-column
@@ -235,6 +279,22 @@ export class TableComponent extends LitElement {
             ></vaadin-grid-column>
           </vaadin-grid>
         </div>
+
+        <paper-dialog id="dialog" modal>
+          <div class="cross-button">
+            <paper-button dialog-confirm>
+              <iron-icon
+                src="../images/close.png"
+                class="cross-icon"
+              ></iron-icon>
+            </paper-button>
+          </div>
+          <div>
+            <paper-button @click="${this.callDeleteFunction}"
+              >Delete</paper-button
+            >
+          </div>
+        </paper-dialog>
       </main>
     `;
   }

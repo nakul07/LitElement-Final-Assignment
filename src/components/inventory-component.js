@@ -44,7 +44,7 @@ export class InventoryComponent extends LitElement {
     this.items = {};
     this.clearField = () => {};
 
-    this.test = this.test.bind(this);
+    this.callSaveFunction = this.callSaveFunction.bind(this);
     this.callClearField = this.callClearField.bind(this);
   }
 
@@ -191,7 +191,7 @@ export class InventoryComponent extends LitElement {
 
   callSaveFunction() {
     console.log('test');
-    this.saveFunction();
+    //this.saveFunction();
   }
   callClearField() {
     this.clearField();
