@@ -21,6 +21,21 @@ export class FormComponent extends LitElement {
        *
        */
       imageSrc: { type: String },
+      /**
+       * Items list.
+       * Passed from parent.
+       *
+       * @type {Object}
+       */
+      items: { type: Object },
+
+      /**
+       * Clear field.
+       * Passed from parent.
+       *
+       * @type {Function}
+       */
+      clearField: { type: Function },
     };
   }
   /**
@@ -37,6 +52,8 @@ export class FormComponent extends LitElement {
         'FW From Target Mass': 5646.8,
       },
     ];
+    this.items = {};
+    this.clearField = () => {};
   }
 
   /**
@@ -91,10 +108,13 @@ export class FormComponent extends LitElement {
           ></molecular-info>
         </div>
         <div class="right-container">
-          <compound-registration></compound-registration>
+          <compound-registration .items="${this.items}"></compound-registration>
         </div>
         <div class="bottom-container">
-          <inventory-component></inventory-component>
+          <inventory-component
+            .items=${this.items}
+            .clearField="${this.clearField}"
+          ></inventory-component>
         </div>
       </main>
     `;

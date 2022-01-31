@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+import { render, nothing } from 'lit-html';
 
 /**
  * TableComponent component for table.
@@ -14,69 +15,42 @@ export class TableComponent extends LitElement {
    * Gets prperties.
    */
   static get properties() {
-    return {};
+    return {
+      /**
+       * Items.
+       * Passed from parent.
+       *
+       * @type {Array}
+       */
+      items: { type: Array },
+
+      /**
+       * Form items.
+       * Passed from parent.
+       *
+       * @type {Object}
+       */
+      formItems: { type: Object },
+
+      /**
+       * Update data function.
+       * Passed from parent.
+       *
+       * @type {Function}
+       */
+      updateData: { type: Function },
+    };
   }
+  
   /**
    * Constructor function.
    */
   constructor() {
     super();
 
-    this.items = [
-      {
-        program: 'abcdef',
-        contract: 'abcdef',
-        varient: 'abcdef',
-        concept: 'abcdef',
-        target1: 'abcdef',
-        target2: 'abcdef',
-        series: 'abcdef',
-        metadataCode: 'abcdef',
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        status: 'abcdef',
-        Available: true,
-      },
-      {
-        program: 'abcdef',
-        contract: 'abcdef',
-        varient: 'abcdef',
-        concept: 'abcdef',
-        target1: 'abcdef',
-        target2: 'abcdef',
-        series: 'abcdef',
-        metadataCode: 'abcdef',
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        status: 'abcdef',
-      },
-      {
-        program: 'abcdef',
-        contract: 'abcdef',
-        varient: 'abcdef',
-        concept: 'abcdef',
-        target1: 'abcdef',
-        target2: 'abcdef',
-        series: 'abcdef',
-        metadataCode: 'abcdef',
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        status: 'abcdef',
-      },
-      {
-        program: 'abcdef',
-        contract: 'abcdef',
-        varient: 'abcdef',
-        concept: 'abcdef',
-        target1: 'abcdef',
-        target2: 'abcdef',
-        series: 'abcdef',
-        metadataCode: 'abcdef',
-        delLineage: 'abcdef',
-        structure: 'abcdef',
-        status: 'abcdef',
-      },
-    ];
+    this.items = [];
+    this.formItems = {};
+    this.updateData = () => {};
   }
 
   /**
@@ -94,6 +68,37 @@ export class TableComponent extends LitElement {
   }
 
   /**
+   * Renders the structure column.
+   *
+   *  @param {Object} root
+   * @param {Object} column
+   * @param {Object} item
+   *
+   * @returns {TemplateResult}
+   */
+
+  structureRenderer(root, column, item) {
+    const innerHTML = html`
+      <div>
+        <img src="../images/close.png" height="10px" />
+      </div>
+    `;
+
+    render(innerHTML, root);
+  }
+
+  /**
+   * Active item changed.
+   *
+   * @param {Object} item
+   */
+  activeItemChanged(item) {
+    if (item) {
+      this.updateData(item.id);
+    }
+  }
+
+  /**
    * Renders html template.
    *
    * @returns {TemplateResult}
@@ -102,11 +107,15 @@ export class TableComponent extends LitElement {
     return html`
       <main>
         <div>
-          <vaadin-grid .items="${this.items}">
+          <vaadin-grid
+            .items="${this.items}"
+            @active-item-changed="${(e) =>
+              this.activeItemChanged(e.detail.value)}"
+          >
             <vaadin-grid-selection-column></vaadin-grid-selection-column>
             <vaadin-grid-sort-column
-              header="Program"
-              path="program"
+              header="Project"
+              path="project"
               flex-grow="0"
               auto-width
             ></vaadin-grid-sort-column>
@@ -154,6 +163,7 @@ export class TableComponent extends LitElement {
               path="structure"
               auto-width
               header="Structure"
+              .renderer="${this.structureRenderer}"
             ></vaadin-grid-column>
             <vaadin-grid-column
               path="status"

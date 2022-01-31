@@ -17,13 +17,22 @@ export class CompoundRegistration extends LitElement {
    * Gets prperties.
    */
   static get properties() {
-    return {};
+    return {
+      /**
+       * Items.
+       * @type {Object}
+       *
+       */
+      items: { type: Object },
+    };
   }
   /**
    * Constructor function.
    */
   constructor() {
     super();
+
+    this.items = {};
   }
 
   /**
@@ -79,28 +88,68 @@ export class CompoundRegistration extends LitElement {
       </custom-style>
       <div>
         <p>Compound Registration</p>
-        <paper-input label="Project" placeholder=" "></paper-input>
-        <paper-input label="Source" placeholder=" "></paper-input>
+
+        <paper-input
+          label="Project"
+          placeholder=" "
+          value="${this.items.project}"
+        ></paper-input>
+
+        <paper-dropdown-menu label="Status">
+          <paper-listbox
+            slot="dropdown-content"
+            class="dropdown-content"
+            selected="${this.items.status}"
+          >
+            <paper-item>In Progress</paper-item>
+            <paper-item>Queued</paper-item>
+            <paper-item>Completed</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
         <paper-dropdown-menu label="Salt Name*">
-          <paper-listbox slot="dropdown-content" class="dropdown-content">
-            <paper-item>allosaurus</paper-item>
-            <paper-item>brontosaurus</paper-item>
-            <paper-item>carcharodontosaurus</paper-item>
-            <paper-item>diplodocus</paper-item>
+          <paper-listbox
+            slot="dropdown-content"
+            class="dropdown-content"
+            selected="${this.items.saltName}"
+          >
+            <paper-item>Allosaurus</paper-item>
+            <paper-item>Brontosaurus</paper-item>
+            <paper-item>Carcharodontosaurus</paper-item>
+            <paper-item>Diplodocus</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
         <paper-input
+          value="${this.items.saltCoefficient}"
           label="Salt Coefficient*"
           placeholder=" "
           required
           auto-validate
           error-message="Can't be empty"
         ></paper-input>
-        <paper-input label="Project Code" placeholder=" "></paper-input>
-        <paper-input label="Meta Code" placeholder=" "></paper-input>
-        <paper-input placeholder="Amount(mg)"></paper-input>
-        <paper-input label="Purity(%)" placeholder=" "></paper-input>
-        <paper-textarea rows="5" label="Notes"></paper-textarea>
+        <paper-input
+          label="Project Code"
+          placeholder=" "
+          value="${this.items.projectCode}"
+        ></paper-input>
+        <paper-input
+          label="Meta Code"
+          placeholder=" "
+          value="${this.items.metaCode}"
+        ></paper-input>
+        <paper-input
+          placeholder="Amount(mg)"
+          value="${this.items.amount}"
+        ></paper-input>
+        <paper-input
+          label="Purity(%)"
+          placeholder=" "
+          value="${this.items.purity}"
+        ></paper-input>
+        <paper-textarea
+          rows="5"
+          label="Notes"
+          value="${this.items.notes}"
+        ></paper-textarea>
       </div>
     `;
   }
