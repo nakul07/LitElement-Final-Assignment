@@ -143,10 +143,10 @@ export class FormComponent extends LitElement {
       }
       .right {
         margin-left: 45px;
-        width: 49%;
+        width: 40%;
       }
       .left {
-        width: 42%;
+        width: 40%;
         margin-left: 10px;
       }
       .saveBtn {

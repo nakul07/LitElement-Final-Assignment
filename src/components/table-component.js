@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
-//import '@vaadin/vaadin-grid/vaadin-grid-filter-column';
 import { styleMap } from 'lit-html/directives/style-map.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import { render, nothing } from 'lit-html';
@@ -160,6 +159,23 @@ export class TableComponent extends LitElement {
   }
 
   /**
+   * Renders the header for menu column.
+   *
+   * @param {Object} root
+   */
+  menuHeaderRenderer(root) {
+    const innerHTML = html`
+      <div>
+        <paper-button>
+          <iron-icon src="../images/p.png"></iron-icon>
+        </paper-button>
+      </div>
+    `;
+
+    render(innerHTML, root);
+  }
+
+  /**
    * Renders the menu column.
    *
    * @param {Object} root
@@ -291,6 +307,7 @@ export class TableComponent extends LitElement {
             <vaadin-grid-column
               flex-grow="0"
               auto-width
+              .headerRenderer="${this.menuHeaderRenderer}"
               .renderer="${this.menuRenderer}"
             ></vaadin-grid-column>
             <vaadin-grid-sort-column
