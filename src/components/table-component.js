@@ -51,7 +51,47 @@ export class TableComponent extends LitElement {
        */
       deleteFunction: { type: Function },
 
+      /**
+       * Active item.
+       *
+       * @type {Object}
+       */
       itemList: { type: Object },
+
+      // /**
+      //  * X coordinates of click event
+      //  *
+      //  * @type {Number}
+      //  */
+      // xCoordinates: { type: Number },
+
+      // /**
+      //  * Y coordinates of click event
+      //  *
+      //  * @type {Number}
+      //  */
+      // yCoordinates: { type: Number },
+
+      /**
+       * Style for popup
+       *
+       * @type {Object}
+       */
+      styles: { type: Object },
+
+      /**
+       * Menu coordinates
+       *
+       * @type {Object}
+       */
+      menuCoordinates: { type: Object },
+
+      /**
+       * Update menu coordinates.
+       *
+       * @type {Function}
+       */
+      updateMenuCoordinates: { type: Function },
     };
   }
 
@@ -62,15 +102,25 @@ export class TableComponent extends LitElement {
     super();
 
     this.items = [];
+    this.itemList = {};
     this.formItems = {};
+    this.menuCoordinates = {};
     this.updateData = () => {};
     this.deleteFunction = () => {};
-    this.menuRenderer = this.menuRenderer.bind(this);
+    this.updateMenuCoordinates = () => {};
     this.openDialog = this.openDialog.bind(this);
+    this.menuRenderer = this.menuRenderer.bind(this);
     this.callDeleteFunction = this.callDeleteFunction.bind(this);
+    this.handleMenuPosition = this.handleMenuPosition.bind(this);
 
-    this.itemList = {};
+    this.styles = {};
   }
+
+  // updated(changedProperties) {
+  //   if (changedProperties.has('menuCoordinates')) {
+  //     console.log(this.menuCoordinates);
+  //   }
+  // }
 
   /**
    * Styles for the component.
@@ -83,13 +133,16 @@ export class TableComponent extends LitElement {
         width: 97%;
         margin: 20px;
       }
+      paper-dialog {
+        position: absolute;
+      }
     `;
   }
 
   /**
    * Renders the structure column.
    *
-   *  @param {Object} root
+   * @param {Object} root
    * @param {Object} column
    * @param {Object} item
    *
@@ -121,10 +174,8 @@ export class TableComponent extends LitElement {
     const innerHTML = html`
       <div>
         <paper-button
-          @click="${() => {
-            // console.log(itemList.id);
-            this.itemList = itemList;
-            this.openDialog();
+          @click="${(event) => {
+            this.handleMenuPosition(event, itemList);
           }}"
           ><iron-icon src="../images/p.png"></iron-icon
         ></paper-button>
@@ -132,6 +183,21 @@ export class TableComponent extends LitElement {
     `;
 
     render(innerHTML, root);
+  }
+
+  /**
+   * Handle menu position
+   *
+   * @param {Object} event
+   * @param {Object} item
+   */
+  handleMenuPosition(event, itemList) {
+    //this.updateMenuCoordinates(event);
+    this.itemList = itemList;
+    const popUp = this.shadowRoot.querySelector('#dialog');
+    popUp.style.left = event.clientX + 'px';
+    popUp.style.top = event.clientY + 'px';
+    this.openDialog();
   }
 
   /**
@@ -164,18 +230,18 @@ export class TableComponent extends LitElement {
     const itemList = item.item;
     const styles = {
       color:
-        itemList.status === 0
+        itemList.status === 'In Progress'
           ? 'brown'
-          : itemList.status === 1
+          : itemList.status === 'Queued'
           ? 'red'
           : 'green',
     };
 
-    if (itemList.status === 0) {
+    if (itemList.status === 'In Progress') {
       innerHTML = html`
         <span style="${styleMap(styles)}">&#8226; In Progress</span>
       `;
-    } else if (itemList.status === 1) {
+    } else if (itemList.status === 'Queued') {
       innerHTML = html`
         <span style="${styleMap(styles)}">&#8226; Queued</span>
       `;
@@ -196,6 +262,7 @@ export class TableComponent extends LitElement {
   activeItemChanged(item) {
     if (item) {
       this.updateData(item.id);
+      // console.log("clicked");
     }
   }
 
@@ -205,9 +272,15 @@ export class TableComponent extends LitElement {
    * @returns {TemplateResult}
    */
   render() {
+    //console.log(this.xCoordinates);
+    // let styles = {
+    //   top: this.menuCoordinates.y + 'px',
+    //   left: this.menuCoordinates.x + 'px',
+    // };
+    // console.log(styles);
     return html`
       <main>
-        <div>
+        <div dialog-confirm>
           <vaadin-grid
             .items="${this.items}"
             @active-item-changed="${(e) =>
@@ -282,17 +355,9 @@ export class TableComponent extends LitElement {
 
         <paper-dialog id="dialog" modal>
           <div class="cross-button">
-            <paper-button dialog-confirm>
-              <iron-icon
-                src="../images/close.png"
-                class="cross-icon"
-              ></iron-icon>
+            <paper-button dialog-confirm @click="${this.callDeleteFunction}">
+              Delete
             </paper-button>
-          </div>
-          <div>
-            <paper-button @click="${this.callDeleteFunction}"
-              >Delete</paper-button
-            >
           </div>
         </paper-dialog>
       </main>

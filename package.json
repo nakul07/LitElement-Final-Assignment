@@ -24,6 +24,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@fooloomanzoo/datetime-picker": "^3.0.9",
+    "@polymer/iron-form": "^3.0.1",
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-checkbox": "^3.1.0",
