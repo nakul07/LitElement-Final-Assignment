@@ -37,6 +37,7 @@
     "@vaadin/vaadin-checkbox": "^22.0.3",
     "@vaadin/vaadin-grid": "^6.0.2",
     "@vaadin/vaadin-list-box": "^22.0.3",
+    "@vaadin/vaadin-themable-mixin": "^22.0.3",
     "lit": "^2.0.0"
   },
   "devDependencies": {

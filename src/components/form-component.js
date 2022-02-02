@@ -13,7 +13,6 @@ import {
   saltName,
   materialStatus,
   sampleType,
-  items,
 } from '../data/dropdown-data.js';
 import '../components/commons/drop-down.js';
 

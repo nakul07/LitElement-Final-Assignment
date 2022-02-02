@@ -6,6 +6,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 //import '@vaadin/vaadin-grid/vaadin-grid.js';
+//import '@vaadin/grid';
 
 /**
  * TableComponent component for table.
