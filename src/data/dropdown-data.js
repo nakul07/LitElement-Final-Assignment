@@ -121,7 +121,7 @@ export const items = [
   },
 ];
 
-export const status = ['Completed', 'In Progress', 'Queued'];
+export const status = [ 'In Progress', 'Queued','Completed'];
 
 export const saltName = ['SaltA', 'SaltB', 'SaltC', 'SaltD'];
 

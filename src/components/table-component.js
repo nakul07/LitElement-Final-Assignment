@@ -188,6 +188,7 @@ export class TableComponent extends LitElement {
    */
   menuRenderer(root, column, item) {
     // console.log(items);
+    //this.checkList(item);
     let itemList = item.item;
     const innerHTML = html`
       <div>
@@ -202,6 +203,13 @@ export class TableComponent extends LitElement {
 
     render(innerHTML, root);
   }
+  // /**
+  //  * Create the list of checked rows for the table.
+  //  *
+  //  */
+  // checkList(items) {
+    
+  // }
 
   /**
    * Handle menu position
@@ -248,18 +256,18 @@ export class TableComponent extends LitElement {
     const itemList = item.item;
     const styles = {
       color:
-        itemList.status === 'In Progress'
+        itemList.status === 'In Progress' || itemList.status === 0
           ? 'brown'
-          : itemList.status === 'Queued'
+          : itemList.status === 'Queued' || itemList.status === 1
           ? 'red'
           : 'green',
     };
 
-    if (itemList.status === 'In Progress') {
+    if (itemList.status === 'In Progress' || itemList.status === 0) {
       innerHTML = html`
         <span style="${styleMap(styles)}">&#8226; In Progress</span>
       `;
-    } else if (itemList.status === 'Queued') {
+    } else if (itemList.status === 'Queued' || itemList.status === 1) {
       innerHTML = html`
         <span style="${styleMap(styles)}">&#8226; Queued</span>
       `;

@@ -4,6 +4,12 @@ import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
 import '@polymer/paper-listbox/paper-listbox';
 import '@polymer/paper-item/paper-item';
 
+/**
+ * DropDown component for drop down.
+ *
+ * @extends LitElement
+ * @see {@link https://lit-element.polymer-project.org/|LitElement}
+ */
 export class DropDown extends LitElement {
   static get styles() {
     return css`

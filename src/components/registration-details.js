@@ -2,8 +2,13 @@ import { LitElement, html, css } from 'lit';
 import './form-component'; // import { FormComponent } from './components/form-component';
 import './table-component'; // import { TableComponent } from './components/table-component';
 import { items } from '../data/dropdown-data.js';
+
 /**
- * MyApp component for dialog box.
+ * RegistrationDetails component for registration details.
+ *
+ * @extends LitElement
+ * @see {@link https://lit-element.polymer-project.org/|LitElement}
+ *
  */
 export class RegistrationDetails extends LitElement {
   static get properties() {
