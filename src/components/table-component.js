@@ -5,7 +5,7 @@ import { styleMap } from 'lit-html/directives/style-map.js';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@polymer/paper-dialog/paper-dialog.js';
-//import '@vaadin/grid/vaadin-grid.js';
+//import '@vaadin/vaadin-grid/vaadin-grid.js';
 
 /**
  * TableComponent component for table.
@@ -51,6 +51,14 @@ export class TableComponent extends LitElement {
        * @type {Function}
        */
       deleteFunction: { type: Function },
+
+      /**
+       * Multiple delete function.
+       * Passed from parent.
+       *
+       * @type {Function}
+       */
+      multipleDeleteFunction: { type: Function },
 
       /**
        * Active item.
@@ -103,16 +111,20 @@ export class TableComponent extends LitElement {
     super();
 
     this.items = [];
+    this.checkedList = [];
     this.itemList = {};
     this.formItems = {};
     this.menuCoordinates = {};
     this.updateData = () => {};
     this.deleteFunction = () => {};
+    this.multipleDeleteFunction = () => {};
     this.updateMenuCoordinates = () => {};
     this.openDialog = this.openDialog.bind(this);
     this.menuRenderer = this.menuRenderer.bind(this);
     this.callDeleteFunction = this.callDeleteFunction.bind(this);
     this.handleMenuPosition = this.handleMenuPosition.bind(this);
+    this.menuHeaderRenderer = this.menuHeaderRenderer.bind(this);
+    this.openMultipleDeleteDialog = this.openMultipleDeleteDialog.bind(this);
 
     this.styles = {};
   }
@@ -136,6 +148,10 @@ export class TableComponent extends LitElement {
       }
       paper-dialog {
         position: absolute;
+      }
+      #multipleDeleteDialog {
+        top: 80px;
+        left: 110px;
       }
     `;
   }
@@ -168,7 +184,7 @@ export class TableComponent extends LitElement {
   menuHeaderRenderer(root) {
     const innerHTML = html`
       <div>
-        <paper-button>
+        <paper-button @click="${this.openMultipleDeleteDialog}">
           <iron-icon src="../images/p.png"></iron-icon>
         </paper-button>
       </div>
@@ -176,6 +192,11 @@ export class TableComponent extends LitElement {
 
     render(innerHTML, root);
   }
+
+  /**
+   * Delete selected items.
+   */
+  //deleteSelected() {}
 
   /**
    * Renders the menu column.
@@ -188,7 +209,7 @@ export class TableComponent extends LitElement {
    */
   menuRenderer(root, column, item) {
     // console.log(items);
-    //this.checkList(item);
+    this.checkList(item);
     let itemList = item.item;
     const innerHTML = html`
       <div>
@@ -203,13 +224,26 @@ export class TableComponent extends LitElement {
 
     render(innerHTML, root);
   }
-  // /**
-  //  * Create the list of checked rows for the table.
-  //  *
-  //  */
-  // checkList(items) {
-    
-  // }
+
+  /**
+   * Create the list of checked rows for the table.
+   *
+   * @param {Object} item
+   */
+  checkList(dataFromRow) {
+    if (dataFromRow.selected) {
+      if (!this.checkedList.includes(dataFromRow.item.id)) {
+        this.checkedList = [...this.checkedList, dataFromRow.item.id];
+      }
+    } else {
+      if (this.checkedList.includes(dataFromRow.item.id)) {
+        this.checkedList.splice(
+          this.checkedList.indexOf(dataFromRow.item.id),
+          1
+        );
+      }
+    }
+  }
 
   /**
    * Handle menu position
@@ -242,6 +276,19 @@ export class TableComponent extends LitElement {
     this.shadowRoot.querySelector('#dialog').toggle();
   }
 
+  /**
+   * Calls multiple delete function.
+   */
+  callMultipleDeleteFunction() {
+    this.multipleDeleteFunction(this.checkedList);
+  }
+
+  /**
+   * Opens the multiple delete dialog
+   */
+  openMultipleDeleteDialog() {
+    this.shadowRoot.querySelector('#multipleDeleteDialog').toggle();
+  }
   /**
    * Renders the status.
    *
@@ -409,6 +456,16 @@ export class TableComponent extends LitElement {
         <paper-dialog id="dialog" modal>
           <div class="cross-button">
             <paper-button dialog-confirm @click="${this.callDeleteFunction}">
+              Delete
+            </paper-button>
+          </div>
+        </paper-dialog>
+        <paper-dialog id="multipleDeleteDialog" modal>
+          <div class="cross-button">
+            <paper-button
+              dialog-confirm
+              @click="${this.callMultipleDeleteFunction}"
+            >
               Delete
             </paper-button>
           </div>

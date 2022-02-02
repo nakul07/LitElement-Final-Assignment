@@ -111,6 +111,10 @@ export class RegistrationDetails extends LitElement {
     this.items = this.items.filter((item) => item.id !== id);
   }
 
+  multipleDeleteFunction(list) {
+    this.items = this.items.filter((item) => !list.includes(item.id));
+  }
+
   /**
    * Updates form Data .
    *
@@ -142,6 +146,8 @@ export class RegistrationDetails extends LitElement {
           .formItems="${this.formItems}"
           .updateData="${(id) => this.updateData(id)}"
           .deleteFunction="${(id) => this.deleteItem(id)}"
+          .multipleDeleteFunction="${(list) =>
+            this.multipleDeleteFunction(list)}"
           .updateMenuCoordinates="${(event) =>
             this.updateMenuCoordinates(event)}"
           .menuCoordinates="${this.menuCoordinates}"
