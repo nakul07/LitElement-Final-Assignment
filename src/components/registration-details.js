@@ -52,7 +52,7 @@ export class RegistrationDetails extends LitElement {
   constructor() {
     super();
 
-    this.items = items;
+    this.items = [...items];
     this.formItems = {};
     this.menuCoordinates = {
       x: 0,
@@ -68,7 +68,7 @@ export class RegistrationDetails extends LitElement {
   updateData(id) {
     this.items.filter((item) => {
       if (item.id === id) {
-        this.formItems = item;
+        this.formItems = { ...item };
       }
     });
   }
@@ -89,7 +89,7 @@ export class RegistrationDetails extends LitElement {
   }
 
   /**
-   * Clear field.
+   * Clears field.
    *
    */
   clearField() {

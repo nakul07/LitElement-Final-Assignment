@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import './components/registration-details.js'; // import { FormComponent } from './components/form-component';
-
+import './styles/custom-style.js';
 export class MyApp extends LitElement {
   /**
    * Constructor function.

@@ -1,9 +1,11 @@
+import { render, nothing } from 'lit-html';
 import { LitElement, html, css } from 'lit';
+import { styleMap } from 'lit-html/directives/style-map.js';
+
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
-import { styleMap } from 'lit-html/directives/style-map.js';
 import '@polymer/paper-dialog/paper-dialog.js';
-import { render, nothing } from 'lit-html';
+//import '@vaadin/grid/vaadin-grid.js';
 
 /**
  * TableComponent component for table.
@@ -283,6 +285,30 @@ export class TableComponent extends LitElement {
   }
 
   /**
+   * Generates classes according to the status.
+   *
+   * @param {Object} column
+   * @param {Object} model
+   *
+   * @returns {String}
+   *
+   */
+  cellClassNameGenerator(column, model) {
+    const item = model.item;
+    let classes = '';
+
+    if (item.status === 'In Progress') {
+      classes += 'in-progress';
+    } else if (item.status === 'Completed') {
+      classes += 'completed';
+    } else {
+      classes += 'queued';
+    }
+    //  console.log(classes);
+    return classes;
+  }
+
+  /**
    * Renders html template.
    *
    * @returns {TemplateResult}
@@ -298,6 +324,8 @@ export class TableComponent extends LitElement {
       <main>
         <div dialog-confirm>
           <vaadin-grid
+            id="grid"
+            .cellClassNameGenerator="${this.cellClassNameGenerator}"
             .items="${this.items}"
             @active-item-changed="${(e) =>
               this.activeItemChanged(e.detail.value)}"
