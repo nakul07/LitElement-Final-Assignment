@@ -109,15 +109,20 @@ export class RegistrationDetails extends LitElement {
   /**
    * Updates form Data .
    *
+   * @param {Object} newItems
+   *
+   *  @returns {Object}
    */
   updateFormData(newItems) {
     //console.log('called');
     this.items.map((item) => {
       if (item.id === newItems.id) {
         item = { ...newItems };
-        this.items[item.id - 1] = { ...item };
+        this.items[item.id - 1] = { ...this.items[item.id - 1], ...item };
       }
+      return item;
     });
+    this.items = [...this.items];
   }
 
   /**
