@@ -35,6 +35,13 @@ export class DropDown extends LitElement {
        * @type {string}
        */
       value: { type: String },
+
+      /**
+       * Name of the drop down
+       *
+       * @type {string}
+       */
+      name: { type: String },
     };
   }
 
@@ -47,10 +54,11 @@ export class DropDown extends LitElement {
       <paper-dropdown-menu
         required
         error-message="Can't be empty"
-        class="input-data"
+        class="data-input"
         noink
         no-animations
         label=${this.getAttribute('label')}
+        name=${this.name}
       >
         <paper-listbox
           slot="dropdown-content"

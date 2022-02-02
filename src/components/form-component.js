@@ -13,6 +13,7 @@ import {
   saltName,
   materialStatus,
   sampleType,
+  items,
 } from '../data/dropdown-data.js';
 import '../components/commons/drop-down.js';
 
@@ -195,12 +196,15 @@ export class FormComponent extends LitElement {
   saveFunction() {
     const list = this.shadowRoot.querySelectorAll('.data-input');
     list.forEach((item) => {
+      if (item.getAttribute('class').includes('dropdown')) {
+        let arr = item.shadowRoot.querySelectorAll('.data-input');
+        item = arr[0];
+      }
       this.newItems[item.getAttribute('name')] = item.value;
+      //console.log(item);
     });
     this.newItems['id'] = this.items.id;
-    //console.log(this.newItems.id);
     this.updateData(this.newItems);
-    console.log(this.newItems);
   }
 
   /**
@@ -209,6 +213,13 @@ export class FormComponent extends LitElement {
    * @returns {TemplateResult}
    */
   render() {
+    /**
+     * While using the vaadin-date picker, I stucked on the error saying that:
+     * Uncaught DOMException: Failed to execute ‘define’ on ‘CustomElementRegistry’: the name “vaadin-lumo-styles” has already been used with this registry
+     *
+     * So I had to use the defalut date picker.
+     */
+
     this.isValid = true;
     return html`
       <custom-style>
@@ -262,7 +273,7 @@ export class FormComponent extends LitElement {
 
           <drop-down
             label="Salt Name*"
-            class="data-input drop-down dropdown"
+            class="data-input  dropdown"
             name="saltName"
             .value="${saltName.indexOf(this.items.saltName)}"
             .options="${saltName}"
